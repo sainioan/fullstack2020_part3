@@ -22,5 +22,8 @@
   "homepage": "https://github.com/sainioan/fullstack2020_part3#readme",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
