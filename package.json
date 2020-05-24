@@ -1,0 +1,26 @@
+{
+  "name": "fullstack2020_part3",
+  "version": "1.0.0",
+  "description": "persons",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sainioan/fullstack2020_part3.git"
+  },
+  "keywords": [
+    "persons"
+  ],
+  "author": "anniinasainio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sainioan/fullstack2020_part3/issues"
+  },
+  "homepage": "https://github.com/sainioan/fullstack2020_part3#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
