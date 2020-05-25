@@ -71,7 +71,7 @@ app.get('/info', (req, res) => {
   }) */
 
   app.get('/api/persons', (request, response, next) => {
-    Person.find({}).then(people => {
+    Persons.find({}).then(people => {
         response.json(people.map(person => person.toJSON()))
     }).catch(error => next(error))
 
