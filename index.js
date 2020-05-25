@@ -3,8 +3,9 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 app.use(express.json())
-
+app.use(cors())
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)
@@ -19,6 +20,7 @@ const unknownEndpoint = (request, response) => {
 app.use(bodyParser.json())
 morgan.token('person', (request) => JSON.stringify(request.body))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :person'))
+
 
 let persons = [
     { 
@@ -120,7 +122,12 @@ app.get('/info', (req, res) => {
   
   app.use(unknownEndpoint)
 
-  const PORT = 3001
+/*   const PORT = 3001
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })
+ */
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
