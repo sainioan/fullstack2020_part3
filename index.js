@@ -27,8 +27,7 @@ let persons = [
         {name : "Arto Hellas", 
         number: "040-123456"},
         id: 1,
-       // date: new Date(),
-      //  important: true
+
       },
         
       { 
@@ -38,8 +37,6 @@ let persons = [
         number: "39-44-5323523",
         },
         id: 2
-       // date: new Date(),
-       // important: true
       },
         
     
@@ -50,8 +47,6 @@ let persons = [
         number: "12-43-234345",
         },
         id: 3,
-       // date: new Date(),
-       // important: true 
       },
       { 
       
@@ -60,8 +55,6 @@ let persons = [
         number: "39-23-6423122",
         },
         id: 4,
-       // date: new Date(),
-       // important: true
      },
 ]
 const size = persons.length
@@ -71,11 +64,18 @@ app.get('/info', (req, res) => {
     res.send('<p>Phonebook has info for ' + size + ' people</p>'+ '<p> ' + new Date() +'</p>')
   })
   
-  app.get('/api/persons', (req, res) => {
+/*   app.get('/api/persons', (req, res) => {
 
     res.json(persons)
-  })
-  app.get('/api/persons/:id', (request, response) => {
+  }) */
+
+  app.get('/api/persons', (request, response, next) => {
+    Person.find({}).then(people => {
+        response.json(people.map(person => person.toJSON()))
+    }).catch(error => next(error))
+
+})
+/*   app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     const person = persons.find(person => person.id ===id)
     if (person){
@@ -84,8 +84,18 @@ app.get('/info', (req, res) => {
     else{
       response.status(404).end()
     }
-  })
-
+  }) */
+  app.get('/api/persons/:id', (request, response, next) => {
+    Person.findById(request.params.id)
+        .then(person => {
+            if (person) {
+                response.json(person.toJSON())
+            } else {
+                response.status(404).end()
+            }
+        })
+        .catch(error => next(error))
+})
  
   app.post('/api/persons', (request, response) => {
     const body = request.body
@@ -117,21 +127,23 @@ app.get('/info', (req, res) => {
     
   })
  
-  
- 
 
-app.get('*', function (req, res) { // This wildcard method handles all requests
-
-    Router.run(routes, req.path, function (Handler, state) {
-        const element = React.createElement(Handler);
-        const html = React.renderToString(element);
-        res.render('main', { content: html });
-    });
-});
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+
+  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+      return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+      return response.status(400).json({ error: error.message })
+  }
+  next(error)
+}
+
+app.use(errorHandler)
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
