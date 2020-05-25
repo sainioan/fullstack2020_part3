@@ -4,6 +4,7 @@ const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+app.use(express.static('build'))
 app.use(express.json())
 app.use(cors())
 const requestLogger = (request, response, next) => {
