@@ -1,6 +1,8 @@
 
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
+const bodyParser = require('body-parser')
 app.use(express.json())
 
 const requestLogger = (request, response, next) => {
@@ -13,6 +15,11 @@ const requestLogger = (request, response, next) => {
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
+
+app.use(bodyParser.json())
+morgan.token('person', (request) => JSON.stringify(request.body))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :person'))
+
 let persons = [
     { 
        
