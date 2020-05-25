@@ -13,9 +13,7 @@ const requestLogger = (request, response, next) => {
   console.log('---')
   next()
 }
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
+
 
 app.use(bodyParser.json())
 morgan.token('person', (request) => JSON.stringify(request.body))
@@ -120,13 +118,20 @@ app.get('/info', (req, res) => {
   })
  
   
-  app.use(unknownEndpoint)
+ 
 
-/*   const PORT = 3001
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-  })
- */
+app.get('*', function (req, res) { // This wildcard method handles all requests
+
+    Router.run(routes, req.path, function (Handler, state) {
+        const element = React.createElement(Handler);
+        const html = React.renderToString(element);
+        res.render('main', { content: html });
+    });
+});
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+app.use(unknownEndpoint)
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
