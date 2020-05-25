@@ -2,6 +2,17 @@
 const express = require('express')
 const app = express()
 app.use(express.json())
+
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
 let persons = [
     { 
        
@@ -98,6 +109,9 @@ app.get('/info', (req, res) => {
     response.status(204).end()
     
   })
+ 
+  
+  app.use(unknownEndpoint)
 
   const PORT = 3001
   app.listen(PORT, () => {
