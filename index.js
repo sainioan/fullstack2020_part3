@@ -65,10 +65,10 @@ app.get('/info', (req, res) => {
     res.send('<p>Phonebook has info for ' + size + ' people</p>'+ '<p> ' + new Date() +'</p>')
   })
   
-/*   app.get('/api/persons', (req, res) => {
+  app.get('/api/persons', (req, res) => {
 
     res.json(persons)
-  }) */
+  })
 
   app.get('/api/persons', (request, response, next) => {
     Persons.find({}).then(people => {
