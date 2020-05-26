@@ -2,7 +2,7 @@
   "name": "fullstack2020_part3",
   "version": "1.0.0",
   "private": true,
-  "description": "",
+  "description": "persons",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -22,7 +22,7 @@
   "keywords": [
     "persons"
   ],
-  "author": "",
+  "author": "anniinasainio",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/sainioan/fullstack2020_part3/issues"
