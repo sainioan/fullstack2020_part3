@@ -7,10 +7,8 @@
     "test": "npm test",
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "build": "react-scripts build",
     "lint": "eslint .",
     "watch": "nodemon index.js",
-    "build:ui": "rm -rf build && cd ../fullstack2020/part2/phonebook-new && npm run build --prod && cp -r build ../../../fullstack2020_part3/fullstack2020_part3",
     "deploy": "git push heroku master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
     "logs:prod": "heroku logs --tail"
