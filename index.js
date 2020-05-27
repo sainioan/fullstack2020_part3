@@ -1,5 +1,6 @@
 
 
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
@@ -118,8 +119,13 @@ app.get('/info', (req, res) => {
       }
       persons = persons.concat(person)
       response.json(person)
+      person.save().then(savedPerson => savedPerson.toJSON())
+      .then(savedAndFormattedPerson => {
+        response.json(savedAndFormattedPerson)
+      })
     }
   )
+  
 
   app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
