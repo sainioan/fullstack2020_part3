@@ -9,7 +9,6 @@
     "start": "node index.js",
     "lint": "eslint .",
     "watch": "nodemon index.js",
-
     "build:ui": "rm -rf build && cd ../fullstack2020/part2/phonebook && npm run build --prod && cp -r build ../../../fullstack2020_par3/fullstack2020_part3",
     "deploy": "git push heroku master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
@@ -35,6 +34,7 @@
     "mongodb": "^3.5.7",
     "mongoose": "^5.9.16",
     "morgan": "^1.10.0",
+    "react-scripts": "^3.4.1",
     "save": "^2.4.0"
   },
   "devDependencies": {
