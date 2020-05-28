@@ -6,11 +6,13 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
+const mongoose  = require('mongoose')
 const bodyParser = require('body-parser')
+const Person = require('./models/person');
 const cors = require('cors')
 
+mongoose.set('useFindAndModify', false);
 app.use(express.json())
-
 
 
 app.use(bodyParser.json())
@@ -115,7 +117,7 @@ app.get('/info', (req, res) => {
     
   })
  
-const PORT = process.env.PORT || 3001 || 45244
+const PORT = process.env.PORT || 3001 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

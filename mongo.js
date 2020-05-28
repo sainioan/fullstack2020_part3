@@ -11,9 +11,9 @@ if (process.argv.length < 3) {
 const password = process.argv[2]
 
 // const url = process.env.MONGODB_URI
-const url = `MONGODB_URI=mongodb+srv://anniinasainio:${password}@cluster0-wfn7g.mongodb.net/test?retryWrites=true&w=majority`
-//mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-mongoose.connect(url)
+const url = `MONGODB_URI=mongodb+srv://anniinasainio:${password}@cluster0-wfn7g.mongodb.net/test?retryWrites=true&w=majority`;
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+//mongoose.connect(url)
 //mongoose.connect(url, { useNewUrlParser: true })
 
 const personSchema = new mongoose.Schema({
@@ -41,7 +41,18 @@ Person
     mongoose.connection.close()
   }) */
 
-  if (process.argv.length === 3) {
+  const person = new Person({
+    name: process.argv[3],
+    number: process.argv[4]
+  });
+
+  Person.find({}).then((result) => {
+    result.forEach((person) => {
+      console.log(person);
+    });
+    mongoose.connection.close();
+  });
+/*   if (process.argv.length === 3) {
     console.log('\nphonebook:')
     Person
       .find({})
@@ -55,4 +66,4 @@ Person
         console.log(`added ${name} number ${number} to phonebook`);
         mongoose.connection.close();
       })
-  }
+  } */
