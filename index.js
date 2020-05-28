@@ -61,13 +61,25 @@ const size = persons.length
 app.get('/info', (req, res) => {
     res.send('<p>Phonebook has info for ' + size + ' people</p>'+ '<p> ' + new Date() +'</p>')
   })
+  app.get('/info', (req, res) => {
+    Person.find({}).then((persons) =>
+      res.send(`
+      <div>
+      Phonebook has info for ${persons.length} people
+      </div>
+      <br>
+      <div>
+      ${Date()}
+      </div>`)
+    );
+  });
   
   app.get('/api/persons', (req, res) => {
     res.json(persons)
   })
 
 
-  app.get('/api/persons/:id', (request, response) => {
+/*   app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     const person = persons.find(person => person.id ===id)
     if (person){
@@ -76,7 +88,18 @@ app.get('/info', (req, res) => {
     else{
       response.status(404).end()
     }
-  })
+  }) */
+  app.get('/api/persons/:id', (req, res, next) => {
+    Person.findById(req.params.id)
+      .then((person) => {
+        if (person) {
+          res.json(person.toJSON());
+        } else {
+          res.status(404).end();
+        }
+      })
+      .catch((err) => next(err));
+  });
 
  
   app.post('/api/persons', (request, response) => {
@@ -89,20 +112,29 @@ app.get('/info', (req, res) => {
       if(!body.number){
       return response.status(400).json({error: 'number missing'})}
        
-      if (persons.find(person => person.name === body.name)) {
+      if (persons.some(person => person.name === body.name)) {
         return response.status(400).json({error:'name must be unique'})
        }
-        const person = {
+        
+       
+       const person = ({
         name:body.name,
         number:body.number,
         id:Math.floor(Math.random()*10000000000000000000)
-      }
+      });
+
+	person
+  .save()
+  .then((savedPerson) => {
+    res.json(savedPerson.toJSON());
+  })
+  .catch((err) => next(err));
       persons = persons.concat(person)
       response.json(person)
-      person.save().then(savedPerson => savedPerson.toJSON())
+/*       person.save().then(savedPerson => savedPerson.toJSON())
       .then(savedAndFormattedPerson => {
         response.json(savedAndFormattedPerson)
-      })
+      }) */
     }
   )
   
@@ -114,7 +146,7 @@ app.get('/info', (req, res) => {
     
   })
  
-const PORT = process.env.PORT || 3001 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
