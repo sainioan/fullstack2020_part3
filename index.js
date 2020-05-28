@@ -10,7 +10,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 app.use(express.json())
-const Person = require('./models/person')
+
 
 
 app.use(bodyParser.json())
