@@ -131,10 +131,6 @@ app.get('/info', (req, res) => {
   .catch((err) => next(err));
       persons = persons.concat(person)
       response.json(person)
-/*       person.save().then(savedPerson => savedPerson.toJSON())
-      .then(savedAndFormattedPerson => {
-        response.json(savedAndFormattedPerson)
-      }) */
     }
   )
   
@@ -149,4 +145,4 @@ app.get('/info', (req, res) => {
   const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-  });
+  });lz
