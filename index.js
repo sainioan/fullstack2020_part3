@@ -38,8 +38,8 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id).then(() => {
-response.status(204).end()
-}).catch(error => next(error))
+    response.status(204).end()
+  }).catch((error) => next(error))
 })
 
 app.post('/api/persons/', (request, response, next) => {
@@ -77,7 +77,7 @@ app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
-  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+  if (error.name === 'CastError' && error.kind === 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' })
   } if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
