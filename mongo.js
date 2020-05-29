@@ -8,20 +8,20 @@ if (process.argv.length < 3) {
 
 const password = process.argv[2]
 
-const url = `MONGODB_URI=mongodb+srv://anniinasainio:${password}@cluster0-wfn7g.mongodb.net/test?retryWrites=true&w=majority`;
+const url = `MONGODB_URI=mongodb+srv://anniinasainio:${password}@cluster0-wfn7g.mongodb.net/test?retryWrites=true&w=majority`
 mongoose.connect(url, { useNewUrlParser: true })
 
 
 const personSchema = new mongoose.Schema({
   name: String,
-  number: String
+  number: String,
 })
 const Person = mongoose.model('Person', personSchema)
 
-if ( process.argv.length<5 ) {
-  Person.find({}).then(result => {
+if (process.argv.length < 5) {
+  Person.find({}).then((result) => {
     console.log('Phonebook:')
-    result.forEach(p => {
+    result.forEach((p) => {
       console.log(p.name, p.number)
     })
     mongoose.connection.close()
@@ -29,9 +29,9 @@ if ( process.argv.length<5 ) {
 } else {
   const person = new Person({
     name: process.argv[3],
-    number: process.argv[4]
+    number: process.argv[4],
   })
-  person.save().then(response => {
+  person.save().then((response) => {
     console.log('person saved!')
     mongoose.connection.close()
   })
