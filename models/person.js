@@ -28,7 +28,7 @@ const personSchema = new mongoose.Schema({
 
 
 personSchema.plugin(uniqueValidator)
-personSchema.plugin(uniqueValidator, { type: 'mongoose-unique-validator' });
+//personSchema.plugin(uniqueValidator, { type: 'mongoose-unique-validator' });
 personSchema.set('toJSON', {
 	transform: (document, returnedObject) => {
 		returnedObject.id = returnedObject._id.toString();

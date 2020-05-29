@@ -1,19 +1,16 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-app.use(express.static('build'))
-
-const cors = require('cors')
-app.use(cors())
-
 const bodyParser = require('body-parser')
-app.use(bodyParser.json())
-
 const morgan = require('morgan')
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :json'))
-morgan.token('json', (request,response) => JSON.stringify(request.body))
-
+const cors = require('cors')
 const Person = require('./models/person')
+
+app.use(bodyParser.json())
+morgan.token('json', (request,response) => JSON.stringify(request.body))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :json'))
+app.use(cors())
+app.use(express.static('build'))
 
 
 app.get('/info', (request, response, next) => {
@@ -77,7 +74,7 @@ const unknownEndpoint = (request, response) => {
 app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
+  //  console.error(error.message)
   if (error.name === 'CastError' && error.kind == 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
